@@ -19,10 +19,23 @@ public class BlobTest {
     // only a helper method that creates the hashed file with its contents in the
     // objects folder (testBlob calls write method within itself)
     static String pathToWorkSpace = "C:\\Users\\danie\\OneDrive\\Desktop\\Topics Repos\\BlobandIndexRonanUpdated\\";
+    // static String pathToWorkSpace = "./bin/objects/";
 
     @BeforeAll
     static void setUpBefore() throws Exception {
-        Index index = new Index();
+
+        java.nio.file.Path folderPath = Paths
+                .get("C:\\Users\\danie\\OneDrive\\Desktop\\Topics Repos\\BlobandIndexRonanUpdated\\objects");
+        if (!Files.exists(folderPath)) {
+            Files.createDirectory(folderPath);
+        }
+
+        Path indexPath = Paths
+                .get("C:\\Users\\danie\\OneDrive\\Desktop\\Topics Repos\\BlobandIndexRonanUpdated\\index");
+        if (!Files.exists(indexPath)) {
+            Files.createFile(indexPath);
+        }
+
         File file1 = new File(pathToWorkSpace + "junit_example_test1.txt");
         File file2 = new File(pathToWorkSpace + "junit_example_test2.txt");
         file1.createNewFile();
@@ -48,17 +61,17 @@ public class BlobTest {
         Blob.blob("junit_example_test1.txt");
         Blob.blob("junit_example_test2.txt");
 
-        Path tree1 = Paths.get(pathToWorkSpace + "objects", "f5cda28ce12d468c64a6a2f2224971f894442f1b");
-        Path tree2 = Paths.get(pathToWorkSpace + "objects", "50d4b41eed4faffe212d8cf6ec89d7889dfeff9e");
+        Path tree1 = Paths.get(pathToWorkSpace + "f5cda28ce12d468c64a6a2f2224971f894442f1b");
+        Path tree2 = Paths.get(pathToWorkSpace + "50d4b41eed4faffe212d8cf6ec89d7889dfeff9e");
 
         // assert that the blob was created in the objects folder with the appropriate
         // hash name
         assertTrue(Files.exists(tree1));
         assertTrue(Files.exists(tree2));
         // assert that the blob created has the same contents as the original text file
-        File file1 = new File(pathToWorkSpace + "objects/f5cda28ce12d468c64a6a2f2224971f894442f1b");
+        File file1 = new File(pathToWorkSpace + "f5cda28ce12d468c64a6a2f2224971f894442f1b");
         BufferedReader br1 = new BufferedReader(new FileReader(file1));
-        File file2 = new File(pathToWorkSpace + "objects/50d4b41eed4faffe212d8cf6ec89d7889dfeff9e");
+        File file2 = new File(pathToWorkSpace + "50d4b41eed4faffe212d8cf6ec89d7889dfeff9e");
         BufferedReader br2 = new BufferedReader(new FileReader(file2));
         assertEquals("some content for file 1", br1.readLine());
         assertEquals("some content for file 2", br2.readLine());
@@ -71,7 +84,7 @@ public class BlobTest {
     @Test
     void testGenerateSHA() throws Exception {
         // assert that generateSHA method returns the correct SHA hash
-        assertEquals("f5cda28ce12d468c64a6a2f2224971f894442f1b", Blob.generateSHA("some content for file 1"));
-        assertEquals("50d4b41eed4faffe212d8cf6ec89d7889dfeff9e", Blob.generateSHA("some content for file 2"));
+        assertEquals("f5cda28ce12d468c64a6a2f2224971f894442f1b", Blob.blob("junit_example_test1.txt"));
+        assertEquals("50d4b41eed4faffe212d8cf6ec89d7889dfeff9e", Blob.blob("junit_example_test2.txt"));
     }
 }

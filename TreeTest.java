@@ -41,6 +41,15 @@ public class TreeTest {
         Utils.deleteFile("junit_example_test2.txt");
         Utils.deleteFile("index");
         Utils.deleteDirectory("objects");
+        File directory = new File(
+                "C:\\Users\\danie\\OneDrive\\Desktop\\Topics Repos\\BlobandIndexRonanUpdated\\objects");
+        for (File subfile : directory.listFiles()) {
+            subfile.delete();
+        }
+        Path path = Paths.get("C:\\Users\\danie\\OneDrive\\Desktop\\Topics Repos\\BlobandIndexRonanUpdated\\objects");
+        Files.deleteIfExists(path);
+        Path path2 = Paths.get("C:\\Users\\danie\\OneDrive\\Desktop\\Topics Repos\\BlobandIndexRonanUpdated\\index");
+        Files.deleteIfExists(path2);
     }
 
     @Test

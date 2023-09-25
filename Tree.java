@@ -25,9 +25,11 @@ public class Tree {
         }
 
         // Calculate the SHA-1 hash of the content
-        MessageDigest digest = MessageDigest.getInstance("SHA-1");
-        byte[] hashBytes = digest.digest(content.toString().getBytes());
-        sha1 = byteArrayToHex(hashBytes);
+        // MessageDigest digest = MessageDigest.getInstance("SHA-1");
+        // byte[] hashBytes = digest.digest(content.toString().getBytes());
+        // sha1 = byteArrayToHex(hashBytes);
+
+        sha1 = Utils.generateSHA(content.toString());
 
         // Create the blob file in the 'objects' folder
         Path blobPath = Paths.get(pathToWorkSpace + "\\objects", sha1);
@@ -38,21 +40,15 @@ public class Tree {
         return sha1;
     }
 
-    // Utility method to convert byte array to hexadecimal string
-    private static String byteArrayToHex(byte[] bytes) {
-        StringBuilder result = new StringBuilder();
-        for (byte b : bytes) {
-            result.append(String.format("%02x", b));
-        }
-        return result.toString();
-    }
-
     public List<String> getEntries() {
         return this.entries;
     }
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         Tree tree = new Tree();
+        tree.generateBlob();
+
+        System.out.println("Tree SHA1: " + tree.getSha1());
 
         // Add entries to the tree
         tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
